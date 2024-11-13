@@ -1,0 +1,264 @@
+# Original Neural Network
+## Pooler
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.80      | 0.72   | 0.75     | 141     |
+| 1         | 0.92      | 0.95   | 0.94     | 575     |
+| 2         | 0.99      | 0.94   | 0.96     | 112     |
+| **accuracy**    |           |        |          | **0.91**    |
+| **macro avg**   | 0.90      | 0.87   | 0.88     | 828     |
+| **weighted avg**| 0.91      | 0.91   | 0.91     | 828     |
+
+## CLS
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.85      | 0.67   | 0.75     | 141     |
+| 1         | 0.90      | 0.97   | 0.93     | 575     |
+| 2         | 0.99      | 0.88   | 0.93     | 112     |
+| **accuracy**    |           |        |          | **0.91**    |
+| **macro avg**   | 0.91      | 0.84   | 0.87     | 828     |
+| **weighted avg**| 0.91      | 0.91   | 0.90     | 828     |
+
+# Residual Neural Network
+## Pooler
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.69      | 0.84   | 0.75     | 141     |
+| 1         | 0.95      | 0.90   | 0.92     | 575     |
+| 2         | 0.99      | 0.94   | 0.96     | 112     |
+| **accuracy**    |           |        |          | **0.90**    |
+| **macro avg**   | 0.87      | 0.89   | 0.88     | 828     |
+| **weighted avg**| 0.91      | 0.90   | 0.90     | 828     |
+
+## CLS
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.77      | 0.74   | 0.76     | 141     |
+| 1         | 0.93      | 0.94   | 0.93     | 575     |
+| 2         | 0.99      | 0.94   | 0.96     | 112     |
+| **accuracy**    |           |        |          | **0.91**    |
+| **macro avg**   | 0.89      | 0.87   | 0.88     | 828     |
+| **weighted avg**| 0.91      | 0.91   | 0.91     | 828     |
+
+# Progressive Neural Network
+## Pooler
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.36      | 0.79   | 0.50     | 141     |
+| 1         | 0.92      | 0.65   | 0.76     | 575     |
+| 2         | 0.93      | 0.97   | 0.95     | 112     |
+| **accuracy**    |           |        |          | **0.72**    |
+| **macro avg**   | 0.74      | 0.80   | 0.74     | 828     |
+| **weighted avg**| 0.83      | 0.72   | 0.74     | 828     |
+
+## CLS
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.85      | 0.67   | 0.75     | 141     |
+| 1         | 0.91      | 0.97   | 0.94     | 575     |
+| 2         | 0.99      | 0.94   | 0.96     | 112     |
+| **accuracy**    |           |        |          | **0.91**    |
+| **macro avg**   | 0.92      | 0.86   | 0.88     | 828     |
+| **weighted avg**| 0.91      | 0.91   | 0.91     | 828     |
+
+# Convolutional Neural Network
+## Pooler
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.76      | 0.68   | 0.72     | 141     |
+| 1         | 0.91      | 0.95   | 0.93     | 575     |
+| 2         | 0.99      | 0.94   | 0.96     | 112     |
+| **accuracy**    |           |        |          | **0.90**    |
+| **macro avg**   | 0.89      | 0.85   | 0.87     | 828     |
+| **weighted avg**| 0.90      | 0.90   | 0.90     | 828     |
+
+## CLS
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.84      | 0.67   | 0.75     | 141     |
+| 1         | 0.91      | 0.97   | 0.94     | 575     |
+| 2         | 0.99      | 0.94   | 0.96     | 112     |
+| **accuracy**    |           |        |          | **0.91**    |
+| **macro avg**   | 0.91      | 0.86   | 0.88     | 828     |
+| **weighted avg**| 0.91      | 0.91   | 0.91     | 828     |
+
+# Autoencoder Neural Network
+## Pooler
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.86      | 0.45   | 0.60     | 141     |
+| 1         | 0.87      | 0.98   | 0.92     | 575     |
+| 2         | 0.99      | 0.94   | 0.96     | 112     |
+| **accuracy**    |           |        |          | **0.89**    |
+| **macro avg**   | 0.91      | 0.79   | 0.83     | 828     |
+| **weighted avg**| 0.89      | 0.89   | 0.87     | 828     |
+
+## CLS
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.84      | 0.60   | 0.70     | 141     |
+| 1         | 0.90      | 0.97   | 0.93     | 575     |
+| 2         | 0.99      | 0.94   | 0.96     | 112     |
+| **accuracy**    |           |        |          | **0.90**    |
+| **macro avg**   | 0.91      | 0.84   | 0.87     | 828     |
+| **weighted avg**| 0.90      | 0.90   | 0.90     | 828     |
+
+# Attention-based
+## Pooler
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.74      | 0.71   | 0.72     | 141     |
+| 1         | 0.88      | 0.94   | 0.91     | 575     |
+| 2         | 1.00      | 0.71   | 0.83     | 112     |
+| **accuracy**    |           |        |          | **0.87**    |
+| **macro avg**   | 0.87      | 0.78   | 0.82     | 828     |
+| **weighted avg**| 0.87      | 0.87   | 0.87     | 828     |
+
+## CLS
+|           | precision | recall | f1-score | support |
+|-----------|-----------|--------|----------|---------|
+| 0         | 0.83      | 0.71   | 0.76     | 141     |
+| 1         | 0.92      | 0.96   | 0.94     | 575     |
+| 2         | 1.00      | 0.91   | 0.95     | 112     |
+| **accuracy**    |           |        |          | **0.91**    |
+| **macro avg**   | 0.91      | 0.86   | 0.89     | 828     |
+| **weighted avg**| 0.91      | 0.91   | 0.91     | 828     |
+
+
+# Original Neural Network
+## Pooler
+              precision    recall  f1-score   support
+
+           0       0.80      0.72      0.75       141
+           1       0.92      0.95      0.94       575
+           2       0.99      0.94      0.96       112
+
+    accuracy                           0.91       828
+   macro avg       0.90      0.87      0.88       828
+weighted avg       0.91      0.91      0.91       828
+
+## CLS
+              precision    recall  f1-score   support
+
+           0       0.85      0.67      0.75       141
+           1       0.90      0.97      0.93       575
+           2       0.99      0.88      0.93       112
+
+    accuracy                           0.91       828
+   macro avg       0.91      0.84      0.87       828
+weighted avg       0.91      0.91      0.90       828
+
+# Residual Neural Network
+## Pooler
+              precision    recall  f1-score   support
+
+           0       0.69      0.84      0.75       141
+           1       0.95      0.90      0.92       575
+           2       0.99      0.94      0.96       112
+
+    accuracy                           0.90       828
+   macro avg       0.87      0.89      0.88       828
+weighted avg       0.91      0.90      0.90       828
+
+## CLS
+              precision    recall  f1-score   support
+
+           0       0.77      0.74      0.76       141
+           1       0.93      0.94      0.93       575
+           2       0.99      0.94      0.96       112
+
+    accuracy                           0.91       828
+   macro avg       0.89      0.87      0.88       828
+weighted avg       0.91      0.91      0.91       828
+
+# Progressive Neural Network
+## Pooler
+              precision    recall  f1-score   support
+
+           0       0.36      0.79      0.50       141
+           1       0.92      0.65      0.76       575
+           2       0.93      0.97      0.95       112
+
+    accuracy                           0.72       828
+   macro avg       0.74      0.80      0.74       828
+weighted avg       0.83      0.72      0.74       828
+
+## CLS
+              precision    recall  f1-score   support
+
+           0       0.85      0.67      0.75       141
+           1       0.91      0.97      0.94       575
+           2       0.99      0.94      0.96       112
+
+    accuracy                           0.91       828
+   macro avg       0.92      0.86      0.88       828
+weighted avg       0.91      0.91      0.91       828
+
+# Convolutional Neural Network
+## Pooler
+              precision    recall  f1-score   support
+
+           0       0.76      0.68      0.72       141
+           1       0.91      0.95      0.93       575
+           2       0.99      0.94      0.96       112
+
+    accuracy                           0.90       828
+   macro avg       0.89      0.85      0.87       828
+weighted avg       0.90      0.90      0.90       828
+
+## CLS
+              precision    recall  f1-score   support
+
+           0       0.84      0.67      0.75       141
+           1       0.91      0.97      0.94       575
+           2       0.99      0.94      0.96       112
+
+    accuracy                           0.91       828
+   macro avg       0.91      0.86      0.88       828
+weighted avg       0.91      0.91      0.91       828
+
+# Autoencoder Neural Network
+## Pooler
+              precision    recall  f1-score   support
+
+           0       0.86      0.45      0.60       141
+           1       0.87      0.98      0.92       575
+           2       0.99      0.94      0.96       112
+
+    accuracy                           0.89       828
+   macro avg       0.91      0.79      0.83       828
+weighted avg       0.89      0.89      0.87       828
+
+## CLS
+              precision    recall  f1-score   support
+
+           0       0.84      0.60      0.70       141
+           1       0.90      0.97      0.93       575
+           2       0.99      0.94      0.96       112
+
+    accuracy                           0.90       828
+   macro avg       0.91      0.84      0.87       828
+weighted avg       0.90      0.90      0.90       828
+
+# Attention-based
+## Pooler
+              precision    recall  f1-score   support
+
+           0       0.74      0.71      0.72       141
+           1       0.88      0.94      0.91       575
+           2       1.00      0.71      0.83       112
+
+    accuracy                           0.87       828
+   macro avg       0.87      0.78      0.82       828
+weighted avg       0.87      0.87      0.87       828
+
+## CLS
+              precision    recall  f1-score   support
+
+           0       0.83      0.71      0.76       141
+           1       0.92      0.96      0.94       575
+           2       1.00      0.91      0.95       112
+
+    accuracy                           0.91       828
+   macro avg       0.91      0.86      0.89       828
+weighted avg       0.91      0.91      0.91       828
