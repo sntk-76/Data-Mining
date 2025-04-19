@@ -170,5 +170,3 @@ The project outputs the following visualizations for easy analysis:
 ## License
 This project is licensed under the MIT License. See the LICENSE file for more details.
 ```
-
-This extended README provides detailed explanations, emphasizes project flexibility, and highlights its strengths. The added sections for highlights, scalability, and future work make it more comprehensive.
