@@ -1,172 +1,149 @@
-# README
+# Reddit Post Popularity Classification
 
-## Overview
-This project implements a comprehensive pipeline for classifying Reddit posts based on their popularity using advanced Natural Language Processing (NLP) techniques and machine learning models. It leverages BERT-based embeddings, Convolutional Neural Networks (CNNs), and Autoencoder-based architectures to deliver a robust and flexible classification framework. 
+## Project Overview
 
-The goal is to categorize Reddit posts into three levels of popularity:
-- **Less Popularity**: Upvote ratio ≤ 0.5
-- **Average Popularity**: 0.5 < Upvote ratio ≤ 0.8
-- **Most Popularity**: Upvote ratio > 0.8
+This repository presents an advanced end-to-end pipeline for **classifying Reddit posts based on their popularity** using state-of-the-art **Natural Language Processing (NLP)** and **deep learning** techniques. The framework is designed to handle textual content from social media and predict post popularity levels with high accuracy by integrating **transformer-based language models**, **convolutional architectures**, and **autoencoder-based representations**.
 
-The pipeline includes:
-1. Data preparation and labeling.
-2. Pretrained BERT embedding extraction for text representation.
-3. Model training using different neural network architectures.
-4. Evaluation of model performance through multiple metrics.
-5. Visualization of results for comparative analysis.
+By utilizing **BERT embeddings** as the semantic foundation for the input text, this system demonstrates how modern language modeling can be adapted for classification tasks where subjective popularity (measured via upvote ratios) becomes the target label.
 
-This project demonstrates how cutting-edge techniques can address real-world NLP classification challenges, with the flexibility to adapt to various datasets and use cases.
+### Classification Objective
 
----
+Posts are labeled based on the `upvote_ratio`, a Reddit metric indicating the proportion of upvotes compared to total votes:
 
-## Prerequisites
+- **Low Popularity**: upvote ratio ≤ 0.5  
+- **Average Popularity**: 0.5 < upvote ratio ≤ 0.8  
+- **High Popularity**: upvote ratio > 0.8
 
-### Libraries and Frameworks:
-Ensure the following libraries are installed:
-- **Core Libraries**: `Python 3.7+`, `Pandas`, `NumPy`, `Matplotlib`, `Seaborn`
-- **Machine Learning**: `scikit-learn`, `TensorFlow`, `imbalanced-learn`
-- **NLP**: `HuggingFace Transformers`
+This multi-class classification is valuable for content ranking, moderation prioritization, and community engagement modeling.
 
-Install all required dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-### Dataset:
-Place the input dataset at the specified path: `/kaggle/input/ukraine-war/original_data.csv`.
-
-The dataset must include the following columns:
-- **subreddit**: Name of the subreddit.
-- **title**: Title of the Reddit post.
-- **selftext**: Main text content of the post.
-- **upvote_ratio**: Ratio of upvotes to total votes.
+![Project Cover](https://github.com/sntk-76/Data-Mining/blob/main/Data%20mining.png)
 
 ---
 
-## Project Structure
+## Technology Stack
 
-### 1. **Data Preparation**
-- **Data Cleaning**: Remove rows with missing or invalid data.
-- **Label Generation**: Categorize posts into "Less Popularity," "Average Popularity," and "Most Popularity" based on `upvote_ratio`.
+### Programming Language and Runtime
+- **Python 3.7+**
 
-### 2. **BERT Tokenization and Embedding**
-- Text data is tokenized using pretrained BERT models:
-  - **Default**: `bert-base-uncased`
-  - **Optional Models**: `TinyBERT`, `RoBERTa`, `ALBERT`
-- Extract embeddings:
-  - **Pooled Output**: Encodes the entire input text.
-  - **CLS Token Output**: Embedding of the `[CLS]` token.
+### Core Libraries
+- **Data Manipulation**: `pandas`, `numpy`
+- **Visualization**: `matplotlib`, `seaborn`, `plotly`
+- **Machine Learning**: `scikit-learn`, `imbalanced-learn`
+- **Deep Learning Framework**: `TensorFlow` with `Keras`
+- **NLP and Transformers**: `HuggingFace Transformers`, `tokenizers`
+- **Model Evaluation**: `scikit-learn.metrics`, `classification_report`, `confusion_matrix`
 
-### 3. **Data Balancing**
-To handle imbalanced classes, three strategies are available:
-- **Oversampling**: Replicate data from underrepresented classes.
-- **Undersampling**: Reduce samples from overrepresented classes.
-- **SMOTE**: Synthesize new samples for underrepresented classes.
+These technologies work in harmony to ensure modular, scalable, and reproducible experimentation.
+
+---
+
+## System Architecture
+
+### 1. **Data Acquisition and Preprocessing**
+- Input data is expected in a structured `.csv` format with relevant metadata and post content.
+- Columns used: `subreddit`, `title`, `selftext`, `upvote_ratio`.
+- Preprocessing pipeline includes:
+  - Null value removal and filtering of incomplete records.
+  - Concatenation of `title` and `selftext` fields to capture complete context.
+  - Stratified labeling based on upvote ratio thresholds.
+
+### 2. **BERT-based Text Embedding**
+- Utilizes **Bidirectional Encoder Representations from Transformers (BERT)** models for feature extraction:
+  - **Default Model**: `bert-base-uncased`
+  - **Optional**: `TinyBERT`, `RoBERTa`, `DistilBERT`, `ALBERT`
+- Tokenization using WordPiece-based tokenizer.
+- Outputs used:
+  - **CLS Token** (`[CLS]`): Captures summary representation.
+  - **Pooled Output**: Represents contextualized semantic embedding of the entire input.
+- Feature vectors are extracted and cached for efficiency.
+
+### 3. **Class Imbalance Handling**
+Given the real-world skew in popularity data, this project implements robust strategies to mitigate class imbalance:
+- **Random Oversampling**: Synthetic duplication of minority class samples.
+- **Random Undersampling**: Controlled reduction of the majority class.
+- **SMOTE (Synthetic Minority Over-sampling Technique)**: Generates synthetic samples in feature space using k-nearest neighbors.
 
 ### 4. **Model Architectures**
-#### a. **Dense Neural Networks**
-- Input: BERT embeddings (pooled or CLS output).
-- Fully connected layers with ReLU activation and dropout for regularization.
 
-#### b. **Convolutional Neural Networks (CNNs)**
-- Input: Reshaped BERT embeddings.
-- Apply 1D convolutional layers for feature extraction.
+#### A. **Fully Connected Neural Networks**
+- BERT embeddings are passed through multiple dense layers with non-linear activation functions (ReLU).
+- Dropout and batch normalization are employed to prevent overfitting.
+- Output layer uses softmax activation for multi-class classification.
 
-#### c. **Autoencoder-based Models**
-- Stage 1: Train an autoencoder to learn compressed representations.
-- Stage 2: Use the compressed representations for classification.
+#### B. **Convolutional Neural Networks (CNNs)**
+- Embeddings are reshaped into matrix format and passed through:
+  - 1D convolutional filters to capture local n-gram semantics.
+  - Max-pooling layers for dimensionality reduction and positional invariance.
+  - Final dense layers for classification.
 
-### 5. **Evaluation and Visualization**
-- **Evaluation Metrics**:
-  - Confusion Matrix
-  - Classification Report (Precision, Recall, F1 Score)
-- **Visualization**:
-  - Confusion matrices for all models.
-  - Overall accuracy comparison.
-  - Label-specific accuracy and F1 scores.
-  - Precision and recall comparisons.
+#### C. **Autoencoder-Augmented Networks**
+- Two-stage process:
+  - **Stage 1**: Train an unsupervised autoencoder to compress high-dimensional embeddings into latent space.
+  - **Stage 2**: Use the encoder's output as input to a classification head (dense or CNN-based).
+- Helps in learning compact, noise-reduced representations of semantic content.
 
 ---
 
-## Instructions
+## Evaluation Pipeline
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/sntk-76/Data-Mining
-cd Data-Mining
-```
+### Metrics Tracked:
+- **Accuracy**: Overall prediction correctness.
+- **Precision, Recall, F1-Score**: Per-class and macro-averaged performance.
+- **Confusion Matrices**: For detailed error analysis.
+- **Support**: Number of samples per class to contextualize scores.
 
-### 2. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Prepare the Dataset
-Ensure the dataset is placed at `/kaggle/input/ukraine-war/original_data.csv`. Update the path in the code if needed.
-
-### 4. Run the Code
-- Execute the script sequentially.
-- Alternatively, run all cells in the provided Jupyter Notebook.
-
-### 5. View Results
-Generated visualizations will be saved in the working directory.
+### Visualization Techniques:
+- Comparative plots using `seaborn` and `matplotlib`.
+- Precision-recall trade-offs for each class.
+- Heatmaps for model confusion matrices.
+- Overall model benchmarking on a unified axis.
 
 ---
 
-## Key Components and Methods
+## Key Python Classes and Methods
 
-### Classes:
-1. **Label_classification**:
-   - Classifies posts based on their `upvote_ratio`.
-
-2. **preprocessing**:
-   - Handles data tokenization, train-test splitting, and balancing.
-
-3. **neural_network**:
-   - Base class for Dense Neural Networks.
-
-4. **ConvolutionalDenseNetwork**:
-   - Extends `neural_network` to include 1D convolutional layers.
-
-5. **AutoencoderClassifierNetwork**:
-   - Extends `neural_network` with an autoencoder stage.
-
-6. **Visualization**:
-   - Visualizes results using confusion matrices, accuracy metrics, and F1 scores.
+| Class Name                    | Purpose                                                                 |
+|------------------------------|-------------------------------------------------------------------------|
+| `LabelClassification`        | Transforms continuous upvote ratios into categorical labels.           |
+| `Preprocessing`              | Handles cleaning, embedding, and balancing.                            |
+| `NeuralNetwork`              | Base classifier model using dense architecture.                        |
+| `ConvolutionalDenseNetwork`  | Hybrid model combining CNN layers with dense outputs.                  |
+| `AutoencoderClassifier`      | Compresses semantic representations and classifies latent vectors.     |
+| `Visualization`              | Provides statistical visualizations and comparisons.                   |
 
 ---
 
-## Results
-The project outputs the following visualizations for easy analysis:
-1. **Confusion Matrices**: `confusion_matrices.png`
-2. **Overall Accuracy**: `overall_accuracy.png`
-3. **Label-specific Accuracy**: `label_accuracy.png`
-4. **F1 Score Comparison**: `f1_score_comparison.png`
-5. **Precision and Recall**: `precision_recall_per_label.png`
-6. **Confusion Matrix Differences**: `confusion_matrix_difference.png`
+## Results & Analysis
+
+Visual output is saved to the `visualizations/` directory, including:
+
+- `confusion_matrices.png`: Class-wise misclassifications.
+- `overall_accuracy.png`: Total accuracy across models.
+- `label_accuracy.png`: Accuracy distribution per popularity label.
+- `f1_score_comparison.png`: F1 scores per model architecture.
+- `precision_recall_per_label.png`: Label-specific trade-offs.
+- `confusion_matrix_difference.png`: Delta heatmaps for model comparisons.
 
 ---
 
-## Highlights
-- **Scalable Framework**: Easily extendable for new datasets or BERT variants.
-- **Comprehensive Models**: Combines dense, convolutional, and autoencoder architectures.
-- **Visual Insights**: Graphical representations for enhanced interpretability.
-- **Balanced Data Handling**: Offers multiple techniques to manage class imbalance.
+## Project Highlights
+
+- **Transformer Integration**: Exploits pretrained BERT and its variants for text understanding.
+- **Multi-architecture Benchmarking**: Dense, CNN, and hybrid approaches evaluated in parallel.
+- **Imbalance Mitigation**: Integrates SMOTE and resampling techniques for realistic datasets.
+- **Flexible Pipeline**: Modular components enable adaptation for sentiment analysis, fake news detection, or toxicity classification.
 
 ---
 
-## Future Work
-1. **Explore Additional Models**:
-   - Add more BERT variants like `TinyBERT`, `RoBERTa`, and `ALBERT`.
-2. **Hyperparameter Tuning**:
-   - Optimize learning rates, layer sizes, and dropout rates.
-3. **Advanced Visualization**:
-   - Incorporate new metrics like ROC curves and feature importance.
-4. **Cross-domain Adaptation**:
-   - Test on datasets from other domains to assess generalizability.
+## Future Enhancements
+
+- Expand to **multi-modal analysis** by integrating post metadata or image content.
+- Incorporate **attention-based pooling mechanisms** for richer sentence representations.
+- Implement **cross-validation** and **hyperparameter optimization** using `Optuna` or `Ray Tune`.
+- Extend to **zero-shot classification** using `sentence-transformers` and `T5`.
 
 ---
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for more details.
-```
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for usage rights and limitations.
