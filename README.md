@@ -1,149 +1,191 @@
-# Reddit Post Popularity Classification
+![Data Mining NLP cover](assets/data-mining-cover.png)
 
-## Project Overview
+# Data Mining: Reddit Post Popularity Classification
 
-This repository presents an advanced end-to-end pipeline for **classifying Reddit posts based on their popularity** using state-of-the-art **Natural Language Processing (NLP)** and **deep learning** techniques. The framework is designed to handle textual content from social media and predict post popularity levels with high accuracy by integrating **transformer-based language models**, **convolutional architectures**, and **autoencoder-based representations**.
+**Transformer-based NLP benchmarking project for classifying social media post popularity with BERT-family embeddings, neural network heads, class-balancing strategies, and detailed model evaluation.**
 
-By utilizing **BERT embeddings** as the semantic foundation for the input text, this system demonstrates how modern language modeling can be adapted for classification tasks where subjective popularity (measured via upvote ratios) becomes the target label.
+[GitHub profile](https://github.com/sntk-76)
 
-### Classification Objective
+## Overview
 
-Posts are labeled based on the `upvote_ratio`, a Reddit metric indicating the proportion of upvotes compared to total votes:
+This project studies whether the textual content of Reddit posts can be used to predict post popularity. The system converts post titles and body text into Transformer-based semantic representations, then benchmarks multiple neural architectures for a three-class popularity classification problem.
 
-- **Low Popularity**: upvote ratio ≤ 0.5  
-- **Average Popularity**: 0.5 < upvote ratio ≤ 0.8  
-- **High Popularity**: upvote ratio > 0.8
+The repository is structured as an applied data mining and NLP research workflow: data extraction, text cleaning, label engineering, embedding generation, imbalance handling, neural model comparison, error analysis, and visualization. It is designed to show not only a working classifier, but also a disciplined experimental process for comparing representation choices and model families.
 
-This multi-class classification is valuable for content ranking, moderation prioritization, and community engagement modeling.
+## Problem Definition
 
-![Project Cover](https://github.com/sntk-76/Data-Mining/blob/main/Data%20mining.png)
+The target variable is derived from Reddit's `upvote_ratio`, turning a continuous engagement signal into a supervised multi-class task:
 
----
+| Label | Popularity Band | Rule |
+| --- | --- | --- |
+| `0` | Low popularity | `upvote_ratio <= 0.50` |
+| `1` | Average popularity | `0.50 < upvote_ratio <= 0.80` |
+| `2` | High popularity | `upvote_ratio > 0.80` |
 
-## Technology Stack
+The objective is to evaluate how well contextual language embeddings and neural classifiers can separate posts by engagement outcome.
 
-### Programming Language and Runtime
-- **Python 3.7+**
+## Why This Project Matters
 
-### Core Libraries
-- **Data Manipulation**: `pandas`, `numpy`
-- **Visualization**: `matplotlib`, `seaborn`, `plotly`
-- **Machine Learning**: `scikit-learn`, `imbalanced-learn`
-- **Deep Learning Framework**: `TensorFlow` with `Keras`
-- **NLP and Transformers**: `HuggingFace Transformers`, `tokenizers`
-- **Model Evaluation**: `scikit-learn.metrics`, `classification_report`, `confusion_matrix`
+Popularity prediction is a realistic social-media mining problem because engagement is noisy, imbalanced, and influenced by language, topic framing, community context, and timing. A keyword-only model is too shallow for this kind of task, so the project uses Transformer embeddings to capture richer semantic patterns from `title` and `selftext`.
 
-These technologies work in harmony to ensure modular, scalable, and reproducible experimentation.
+For recruiters and technical reviewers, the project demonstrates practical machine learning judgment: thoughtful labeling, preprocessing, imbalance treatment, systematic benchmarking, and metric-driven comparison across several model designs.
 
----
+## Core Capabilities
 
-## System Architecture
+| Capability | Implementation |
+| --- | --- |
+| Reddit text mining | Extracts and structures post metadata, titles, self-text, comments, and engagement signals. |
+| Label engineering | Converts `upvote_ratio` into low, average, and high popularity classes. |
+| Text cleaning | Filters null and noisy records, combines textual fields, and prepares model-ready text. |
+| Transformer embeddings | Benchmarks BERT-family encoders including BERT, RoBERTa, ALBERT, and TinyBERT-style variants. |
+| Representation comparison | Evaluates both pooled output and CLS-token representations. |
+| Imbalance handling | Compares oversampling, undersampling, and SMOTE-style augmentation strategies. |
+| Neural classifier benchmarking | Tests dense, residual, progressive, convolutional, autoencoder, and attention-based classifier heads. |
+| Evaluation and reporting | Produces accuracy, precision, recall, F1-score, confusion matrices, label accuracy plots, and model-comparison figures. |
 
-### 1. **Data Acquisition and Preprocessing**
-- Input data is expected in a structured `.csv` format with relevant metadata and post content.
-- Columns used: `subreddit`, `title`, `selftext`, `upvote_ratio`.
-- Preprocessing pipeline includes:
-  - Null value removal and filtering of incomplete records.
-  - Concatenation of `title` and `selftext` fields to capture complete context.
-  - Stratified labeling based on upvote ratio thresholds.
+## Architecture
 
-### 2. **BERT-based Text Embedding**
-- Utilizes **Bidirectional Encoder Representations from Transformers (BERT)** models for feature extraction:
-  - **Default Model**: `bert-base-uncased`
-  - **Optional**: `TinyBERT`, `RoBERTa`, `DistilBERT`, `ALBERT`
-- Tokenization using WordPiece-based tokenizer.
-- Outputs used:
-  - **CLS Token** (`[CLS]`): Captures summary representation.
-  - **Pooled Output**: Represents contextualized semantic embedding of the entire input.
-- Feature vectors are extracted and cached for efficiency.
+```mermaid
+flowchart LR
+    A[Reddit Post Data] --> B[Text Cleaning]
+    B --> C[Title and Selftext Composition]
+    C --> D[Popularity Label Engineering]
+    D --> E[Transformer Tokenization]
+    E --> F[BERT-Family Encoders]
+    F --> G1[Pooled Output Embeddings]
+    F --> G2[CLS Output Embeddings]
 
-### 3. **Class Imbalance Handling**
-Given the real-world skew in popularity data, this project implements robust strategies to mitigate class imbalance:
-- **Random Oversampling**: Synthetic duplication of minority class samples.
-- **Random Undersampling**: Controlled reduction of the majority class.
-- **SMOTE (Synthetic Minority Over-sampling Technique)**: Generates synthetic samples in feature space using k-nearest neighbors.
+    G1 --> H[Class Balancing]
+    G2 --> H
+    H --> I[Neural Classifier Heads]
+    I --> J[Predictions]
+    J --> K[Metrics and Confusion Matrices]
+    K --> L[Benchmark Visualizations]
 
-### 4. **Model Architectures**
+    B --> M[Network Analysis Artifacts]
+```
 
-#### A. **Fully Connected Neural Networks**
-- BERT embeddings are passed through multiple dense layers with non-linear activation functions (ReLU).
-- Dropout and batch normalization are employed to prevent overfitting.
-- Output layer uses softmax activation for multi-class classification.
+## Technical Stack
 
-#### B. **Convolutional Neural Networks (CNNs)**
-- Embeddings are reshaped into matrix format and passed through:
-  - 1D convolutional filters to capture local n-gram semantics.
-  - Max-pooling layers for dimensionality reduction and positional invariance.
-  - Final dense layers for classification.
+| Layer | Tools |
+| --- | --- |
+| Language | Python |
+| Data processing | Pandas, NumPy |
+| NLP and embeddings | Hugging Face Transformers, BERT, RoBERTa, ALBERT, TinyBERT-style models |
+| Modeling | TensorFlow, Keras, dense networks, CNNs, autoencoders, attention-style heads |
+| Imbalance handling | SMOTE, oversampling, undersampling |
+| Evaluation | Scikit-learn metrics, classification reports, confusion matrices |
+| Visualization | Matplotlib, Seaborn, Plotly, NetworkX |
 
-#### C. **Autoencoder-Augmented Networks**
-- Two-stage process:
-  - **Stage 1**: Train an unsupervised autoencoder to compress high-dimensional embeddings into latent space.
-  - **Stage 2**: Use the encoder's output as input to a classification head (dense or CNN-based).
-- Helps in learning compact, noise-reduced representations of semantic content.
+## Repository Structure
 
----
+```text
+Data-Mining/
+|-- assets/
+|   `-- data-mining-cover.png
+|-- codes/
+|   |-- Data extraction.ipynb
+|   |-- Cleaning_text.ipynb
+|   `-- mpdel implementation.ipynb
+|-- data/
+|   |-- original_data.csv
+|   |-- text_filtered_data.csv
+|   |-- nodes.csv
+|   `-- edgelist.csv
+|-- outputs/
+|   |-- bert_base.txt
+|   |-- roberta_base.txt
+|   |-- albert_base.txt
+|   `-- tinybert.txt
+|-- Results/
+|   |-- Clean data/
+|   |-- unclean data/
+|   `-- network/
+|-- LICENSE
+`-- README.md
+```
 
-## Evaluation Pipeline
+## Experimental Design
 
-### Metrics Tracked:
-- **Accuracy**: Overall prediction correctness.
-- **Precision, Recall, F1-Score**: Per-class and macro-averaged performance.
-- **Confusion Matrices**: For detailed error analysis.
-- **Support**: Number of samples per class to contextualize scores.
+The project compares several dimensions of the NLP pipeline:
 
-### Visualization Techniques:
-- Comparative plots using `seaborn` and `matplotlib`.
-- Precision-recall trade-offs for each class.
-- Heatmaps for model confusion matrices.
-- Overall model benchmarking on a unified axis.
+| Dimension | Variants |
+| --- | --- |
+| Encoder family | BERT, RoBERTa, ALBERT, TinyBERT-style models |
+| Embedding output | Pooled output vs. CLS-token output |
+| Data condition | Cleaned vs. uncleaned data |
+| Class balancing | Oversampling, undersampling, SMOTE |
+| Classifier architecture | Original dense network, residual network, progressive network, CNN, autoencoder, attention-based model |
+| Metrics | Accuracy, precision, recall, F1-score, confusion matrix, per-label accuracy |
 
----
+This matrix of experiments makes the repository more than a single model run: it is a controlled benchmark of representation and classifier choices.
 
-## Key Python Classes and Methods
+## Results Summary
 
-| Class Name                    | Purpose                                                                 |
-|------------------------------|-------------------------------------------------------------------------|
-| `LabelClassification`        | Transforms continuous upvote ratios into categorical labels.           |
-| `Preprocessing`              | Handles cleaning, embedding, and balancing.                            |
-| `NeuralNetwork`              | Base classifier model using dense architecture.                        |
-| `ConvolutionalDenseNetwork`  | Hybrid model combining CNN layers with dense outputs.                  |
-| `AutoencoderClassifier`      | Compresses semantic representations and classifies latent vectors.     |
-| `Visualization`              | Provides statistical visualizations and comparisons.                   |
+The saved reports in `outputs/` show that several configurations reach approximately **0.91-0.92 accuracy** on the evaluated test split of 828 samples. ALBERT and TinyBERT-style configurations are particularly competitive in the saved results, while BERT and RoBERTa also maintain strong performance across multiple classifier heads.
 
----
+Key evaluation artifacts include:
 
-## Results & Analysis
+- `outputs/bert_base.txt`
+- `outputs/roberta_base.txt`
+- `outputs/albert_base.txt`
+- `outputs/tinybert.txt`
+- `Results/**/overall_accuracy.png`
+- `Results/**/f1_score_comparison.png`
+- `Results/**/precision_recall_per_label.png`
+- `Results/**/confusion_matrices.png`
+- `Results/network/network.png`
 
-Visual output is saved to the `visualizations/` directory, including:
+## Modeling Workflow
 
-- `confusion_matrices.png`: Class-wise misclassifications.
-- `overall_accuracy.png`: Total accuracy across models.
-- `label_accuracy.png`: Accuracy distribution per popularity label.
-- `f1_score_comparison.png`: F1 scores per model architecture.
-- `precision_recall_per_label.png`: Label-specific trade-offs.
-- `confusion_matrix_difference.png`: Delta heatmaps for model comparisons.
-
----
+1. Extract Reddit post data and relevant engagement metadata.
+2. Clean and filter text fields.
+3. Combine `title` and `selftext` to preserve post context.
+4. Convert `upvote_ratio` into supervised popularity labels.
+5. Tokenize post text with Transformer tokenizers.
+6. Generate contextual embeddings from BERT-family encoders.
+7. Prepare pooled-output and CLS-output feature sets.
+8. Apply class-balancing strategies to address engagement skew.
+9. Train and compare neural classifier heads.
+10. Evaluate predictions with per-class and aggregate metrics.
+11. Save visual diagnostics for model comparison and error analysis.
 
 ## Project Highlights
 
-- **Transformer Integration**: Exploits pretrained BERT and its variants for text understanding.
-- **Multi-architecture Benchmarking**: Dense, CNN, and hybrid approaches evaluated in parallel.
-- **Imbalance Mitigation**: Integrates SMOTE and resampling techniques for realistic datasets.
-- **Flexible Pipeline**: Modular components enable adaptation for sentiment analysis, fake news detection, or toxicity classification.
+- Treats social-media popularity prediction as a serious supervised NLP benchmark.
+- Compares multiple Transformer encoders and embedding extraction strategies.
+- Evaluates several neural architectures rather than relying on a single classifier.
+- Addresses class imbalance with multiple resampling approaches.
+- Produces detailed visual diagnostics for model quality and failure patterns.
+- Includes network-analysis artifacts that support broader social-data exploration.
 
----
+## How to Reproduce
 
-## Future Enhancements
+The project is notebook-driven. Open and run the notebooks in this order:
 
-- Expand to **multi-modal analysis** by integrating post metadata or image content.
-- Incorporate **attention-based pooling mechanisms** for richer sentence representations.
-- Implement **cross-validation** and **hyperparameter optimization** using `Optuna` or `Ray Tune`.
-- Extend to **zero-shot classification** using `sentence-transformers` and `T5`.
+```text
+codes/Data extraction.ipynb
+codes/Cleaning_text.ipynb
+codes/mpdel implementation.ipynb
+```
 
----
+Recommended Python dependencies:
+
+```bash
+pip install pandas numpy scikit-learn imbalanced-learn tensorflow transformers matplotlib seaborn plotly networkx
+```
+
+The Transformer notebooks may require substantial memory and runtime depending on the selected encoder and hardware.
+
+## Future Improvements
+
+- Add a script-based training entry point in addition to notebooks.
+- Track experiments with MLflow or Weights & Biases.
+- Add cross-validation and hyperparameter search.
+- Compare Transformer embeddings against TF-IDF and classical ML baselines.
+- Add metadata features such as subreddit, posting time, and number of comments.
+- Package the best model behind a small inference API or dashboard.
 
 ## License
 
-This project is licensed under the **MIT License**. See the `LICENSE` file for usage rights and limitations.
+This project is licensed under the [MIT License](LICENSE).
